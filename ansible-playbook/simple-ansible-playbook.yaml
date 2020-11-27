@@ -1,0 +1,19 @@
+#Simple Ansible Playbook to pull Docker Image from the registry and run a Docker containers
+ 
+- import_playbook: build-push.yaml
+ 
+- name: Playbook to build and run Docker
+  hosts: docker_host
+  gather_facts: false
+ 
+  tasks:
+    - name: Run Docker container using simple-docker-image
+      docker_container:
+        name: simple-docker-container
+        image: gauravsadawarte/simple-docker-image:latest
+        state: started
+        recreate: yes
+        detach: true
+        pull: yes
+        ports:
+          - "8888:8080"
